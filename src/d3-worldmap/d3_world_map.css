@@ -44,3 +44,7 @@
   .world {
     transform-origin: center;
   }
+
+  .toolTipHeader{
+    color: #e4e140;
+  }

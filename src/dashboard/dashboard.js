@@ -33,6 +33,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 
 import './dashboard.css'
+import TreeTable from '../tree-table/tree-table';
+import RangeSlider from '../range-slider/range-slider';
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
@@ -161,50 +163,50 @@ function Row(props) {
                                 <TableBody>
                                     {row.supplier.map((supplierRow) => (
                                         <>
-                                        <TableRow key={supplierRow.customerId + Math.random()}>
-                                            <TableCell>
-                                                <IconButton aria-label="expand row" size="small" onClick={() => setChildOpen(!childOpen)}>
-                                                    {childOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell>{supplierRow.customerId}</TableCell>
-                                            <TableCell align="right">{supplierRow.amount}</TableCell>
-                                            <TableCell align="right">
-                                                {Math.round(supplierRow.amount * row.price * 100) / 100}
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                            <Collapse in={childOpen} timeout="auto" unmountOnExit>
-                                                <Box margin={1}>
-                                                    <Typography variant="h6" gutterBottom component="div">
-                                                        Firms
-                                                    </Typography>
-                                                    <Table size="small" aria-label="purchases">
-                                                        <TableHead>
-                                                            <TableRow>
-                                                                <TableCell>Brand</TableCell>
-                                                                <TableCell align="right">Production</TableCell>
-                                                                <TableCell align="right">Turn Over ($)</TableCell>
-                                                            </TableRow>
-                                                        </TableHead>
-                                                        <TableBody>
-                                                            {supplierRow.firms.map((FirmRow) => (
-                                                                <TableRow key={FirmRow.name + Math.random()}>
-                                                                    <TableCell>{FirmRow.name}</TableCell>
-                                                                    <TableCell align="right">{FirmRow.amount}</TableCell>
-                                                                    <TableCell align="right">
-                                                                        {Math.round(FirmRow.amount * row.price * 100) / 100}
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            ))}
-                                                        </TableBody>
-                                                    </Table>
-                                                </Box>
-                                            </Collapse>
-                                        </TableCell>
-                                    </TableRow>
-                                    </>
+                                            <TableRow key={supplierRow.customerId + Math.random()}>
+                                                <TableCell>
+                                                    <IconButton aria-label="expand row" size="small" onClick={() => setChildOpen(!childOpen)}>
+                                                        {childOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell>{supplierRow.customerId}</TableCell>
+                                                <TableCell align="right">{supplierRow.amount}</TableCell>
+                                                <TableCell align="right">
+                                                    {Math.round(supplierRow.amount * row.price * 100) / 100}
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                                                    <Collapse in={childOpen} timeout="auto" unmountOnExit>
+                                                        <Box margin={1}>
+                                                            <Typography variant="h6" gutterBottom component="div">
+                                                                Firms
+                                                            </Typography>
+                                                            <Table size="small" aria-label="purchases">
+                                                                <TableHead>
+                                                                    <TableRow>
+                                                                        <TableCell>Brand</TableCell>
+                                                                        <TableCell align="right">Production</TableCell>
+                                                                        <TableCell align="right">Turn Over ($)</TableCell>
+                                                                    </TableRow>
+                                                                </TableHead>
+                                                                <TableBody>
+                                                                    {supplierRow.firms.map((FirmRow) => (
+                                                                        <TableRow key={FirmRow.name + Math.random()}>
+                                                                            <TableCell>{FirmRow.name}</TableCell>
+                                                                            <TableCell align="right">{FirmRow.amount}</TableCell>
+                                                                            <TableCell align="right">
+                                                                                {Math.round(FirmRow.amount * row.price * 100) / 100}
+                                                                            </TableCell>
+                                                                        </TableRow>
+                                                                    ))}
+                                                                </TableBody>
+                                                            </Table>
+                                                        </Box>
+                                                    </Collapse>
+                                                </TableCell>
+                                            </TableRow>
+                                        </>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -212,7 +214,7 @@ function Row(props) {
                     </Collapse>
                 </TableCell>
             </TableRow>
-            
+
         </React.Fragment>
     );
 }
@@ -374,43 +376,31 @@ export default function Dashboard() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-            <Grid container direction="row"
+            <Grid className="dashBoardRootGrid" container direction="row"
                 justifyContent="space-evenly"
                 alignItems="center" >
                 <Grid className="geoMapPaper" item xs={7} >
-
-                    <Grid container direction="column" >
-                        <Grid container justifyContent="space-evenly"
-                            alignItems="center" >
+                    <Grid container direction="column" justifyContent="space-evenly">
+                        <Grid container alignItems="center" >
+                            <Grid item xs={11} >
+                                <Paper elevation={3} >
+                                    <RangeSlider />
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                        <br />
+                        <Grid container alignItems="center" >
                             <Grid item xs={11} >
                                 <Paper elevation={3} >
                                     <D3WorldMap />
                                 </Paper>
                             </Grid>
                         </Grid>
-
-                        <Grid container justifyContent="space-evenly"
-                            alignItems="center" >
-                            <Grid item xs={1} >
-                                <Typography id="discrete-slider-small-steps" gutterBottom>
-                                    Year Filter
-                                </Typography>
-                                <Slider
-
-                                    defaultValue={2021}
-                                    aria-labelledby="discrete-slider-small-steps"
-                                    step={1}
-                                    marks
-                                    min={2017}
-                                    max={2021}
-                                    valueLabelDisplay="auto"
-                                />
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={5}>
-                    <Paper className="tablePaper" elevation={3} >
+                <Grid className="treeTablePaper" item xs={5}>
+                    <TreeTable />
+                    {/* <Paper className="tablePaper" elevation={3} >
                         <TableContainer component={Paper}>
                             <Table aria-label="collapsible table">
                                 <TableHead>
@@ -430,7 +420,7 @@ export default function Dashboard() {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Paper>
+                    </Paper> */}
                 </Grid>
             </Grid>
         </div>
